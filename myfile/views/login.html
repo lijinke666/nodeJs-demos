@@ -1,0 +1,20 @@
+
+<fieldset>
+    <table align="center">
+        <thead>
+            <td>id</td>
+            <td>演员</td>
+            <td>影片评论</td>
+        </thead>
+        <tbody>
+        <%info.forEach(function(v,k){%>
+        <tr>
+            <td><%=v.i_m_id%></td>
+            <td><%=v.i_m_actor%> </td>
+            <td><%=v.i_m_review%></td>
+        </tr>
+        </tbody>
+        <%})%>
+    </table>
+
+</fieldset>

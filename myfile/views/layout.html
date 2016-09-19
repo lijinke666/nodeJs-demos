@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+            text-align: center;
+        }
+        header,footer{
+            background: #444;
+            color: white;
+        }
+        section{
+            padding: 50px;
+        }
+        h1,h2,h3,h4,h5{
+            margin: 0;
+        }
+        a{
+            text-decoration: none;
+            color:#444;
+        }
+        a:hover{
+            color:#396;
+        }
+        a.active{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<header><h1>头部</h1></header>
+<nav><a href="" class="<%active='index' ? active :''%>">电影</a>》》<a href="" class="<%active='login' ? active :'1' %>">电影详情</a>》》<a href="" >电影编辑</a></nav>
+<section>
+    <%-body%>
+</section>
+<footer><h1>底部</h1></footer>
+</body>
+<script src="../js/script.js"></script>
+</html>

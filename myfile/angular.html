@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MyAngular">
+<head>
+    <meta charset="UTF-8">
+    <title>angular</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        body,input,textarea,button{
+            text-align: center;
+            font-family: "微软雅黑";
+        }
+    </style>
+</head>
+<body>
+<h2>Angular</h2>
+<div ng-controller="userList">
+    <p>当前用户：{{nickname?nickname:'未登录'}}</p>
+    <fieldset>
+        <!--用户信息-->
+        <div ng-repeat="list in json">
+            <p><span>{{list.nickname}}</span><span>{{list.phone}}</span><span>{{list.pwd}}</span></p>
+        </div>
+        <!--用户信息end-->
+    </fieldset>
+</div>
+<br/>
+<div ng-controller="updateNickname">
+    <fieldset>
+        手机号: <input type="text" placeholder="手机号" ng-model="phone">用户名:<input type="text" placeholder="修改之后的用户名" ng-model="nickname"><button ng-click="updateNickname()">修改</button><span>{{updateSuccessText}}</span>
+    </fieldset>
+</div>
+</body>
+<script src="js/angular1.2.3.js"></script>
+<script>
+     var mymodule = angular.module("MyAngular",[]);
+     <!--读取用户信息-->
+    mymodule.controller("userList",function userList($scope,$http){
+        $http.post("/angularTest.do").success(function(data){
+            $scope.json=data;
+        })
+    });
+    <!--读取用户信息end-->
+
+    <!--修改用户名-->
+     mymodule.controller("updateNickname",function updateNickname($scope,$http){
+         $scope.updateNickname=function(){
+             var phone = $scope.phone;
+             var nickname = $scope.nickname;
+             $http.post("/updateNickname.do",{phone:phone,nickname:nickname}).success(function(data){
+                 alert("修改成功");
+                location.reload();
+             })
+         }
+     });
+    <!--修改用户名end-->
+</script>
+</html>

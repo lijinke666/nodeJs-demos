@@ -1,0 +1,4 @@
+<a href="/select?sex=0">男</a>  &nbsp;<a href="/select?sex=1">女</a>  <a href="/select?sex=2">全部</a>
+<%data.forEach(function(v,k){%>
+    <p><%=v.m_id%> <%=v.m_name%> <%=v.m_time%> <a href="/login?id=<%=v.m_id%>">详情</a></p>
+<%})%>
