@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>在线聊天</title>
+    <link rel="stylesheet" href="css/talk.css">
+</head>
+<body>
+    <h2>在线聊天室</h2>
+    <p>当前在线人数 : <span class="userNum">--</span> 用户名:<span class="username">--</span></p>
+    <section class="talk-section">
+
+    </section>
+    <div class="talk-btn">
+        <input type="text" class="btn inp-message" placeholder="输入消息">
+        <button class="btn btn-send">发送</button>
+    </div>
+</body>
+<script src='js/jquery-1.11.3.js'></script>
+<script src='js/browser.min.js'></script>
+<!--这里是个坑 不是相对路径  服务器启动后会生成一个socket.io的路径-->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    $(()=>{
+        //建立socket
+        let socket = io.connect('http://localhost:666');
+        //连接
+        //发送给后台 用户名
+        socket.emit('login',
+            {
+                userId:Date.now()+Math.floor(Math.random()*100),
+                username:'赵日天'+Math.floor(Math.random()*100)
+            }
+        )
+        //监听用户进入
+        socket.on('login',( data )=>{
+            console.log('用户登录成功--用户信息：',data)
+            let {userNum,username} = data;
+            $('.userNum').text(userNum);
+            $('.username').text(username);
+            $('.talk-section').append($('<div>连接服务器成功~可以开始说骚话了</div>'))
+        });
+        //接受服务器发过来的消息
+        socket.on('message', data =>{
+            console.log('服务器发来消息',data )
+            var $text = $('<div class="message">'+ data +'</div>');
+            $('.talk-section').append($text)
+
+        })
+        socket.on('error',error =>{
+            console.log('error',error)
+        })
+
+        let $btnSend = $('.btn-send');
+        $btnSend.on('click',()=>{
+            sendMessage(socket)
+                .then(data=>{
+                    console.log('success',data)
+
+                }).catch(e=>{
+                    console.log('error',e)
+                }); 
+        })
+
+    })
+
+    function sendMessage( socket ){
+        return new Promise((res,rej)=>{
+            let $message = $('.inp-message').val();
+            //发送消息给服务器
+            socket.send($message);
+            res($message);
+        })
+    }
+</script>
+</html>
