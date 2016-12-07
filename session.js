@@ -18,6 +18,6 @@ app.get("/",function(req,res){
         res.send("欢迎登录");
     }
 })
-app.listen(80,function(){
+app.listen(8090,function(){
     console.log("go~");
 });
