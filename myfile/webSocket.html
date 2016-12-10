@@ -26,26 +26,23 @@
         //建立socket
         let socket = io.connect('http://localhost:666');
         //连接
-        //发送给后台 用户名
-        socket.emit('login',
-            {
-                userId:Date.now()+Math.floor(Math.random()*100),
-                username:'赵日天'+Math.floor(Math.random()*100)
-            }
-        )
+        //接受到当前登录用户后  发送给后台 
+        user('/user').then((username)=>{
+            socket.emit('login',username);
+        })
         //监听用户进入
         socket.on('login',( data )=>{
             console.log('用户登录成功--用户信息：',data)
             let {userNum,username} = data;
             $('.userNum').text(userNum);
-            $('.username').text(username);
+            $('.username').text(username.username);
             $('.talk-section').append($('<div>连接服务器成功~可以开始说骚话了</div>'))
         });
         //接受服务器发过来的消息
-        socket.on('message', data =>{
-            console.log('服务器发来消息',data )
-            var $text = $('<div class="message">'+ data +'</div>');
-            $('.talk-section').append($text)
+        socket.on('message', messageInfo =>{
+            console.log('服务器发来消息',messageInfo )
+            var $text = $('<p class="message">'+ messageInfo.message +'<span class="message-info">'+ messageInfo.username +'<span class="message-time">'+ messageInfo.time +'</span></p>');
+            $('.talk-section').append($text).scrollTop( $('.talk-section')[0].scrollHeight)
 
         })
         socket.on('error',error =>{
@@ -56,7 +53,8 @@
         $btnSend.on('click',()=>{
             sendMessage(socket)
                 .then(data=>{
-                    console.log('success',data)
+                    $('.inp-message').val("").focus();
+                    console.log('发送成功=>消息',data)
 
                 }).catch(e=>{
                     console.log('error',e)
@@ -65,13 +63,52 @@
 
     })
 
+    //发送消息给服务器
     function sendMessage( socket ){
         return new Promise((res,rej)=>{
             let $message = $('.inp-message').val();
-            //发送消息给服务器
-            socket.send($message);
-            res($message);
+            let date = new Date();
+            let time = date.getHours() + ":" + date.getMinutes()+":" + date.getSeconds();
+            socket.send({
+                message:$message,
+                time:time
+            });
+            res({
+                message:$message,
+                time:time
+            });
         })
+    }
+
+    //用户当前登录用户信息
+    function user( url ){
+        return new Promise(( res,rej )=>{
+            $.ajax({
+                type:"GET",
+                url:url,
+                data:{},
+                dataType:"json",
+                beforeSend(){
+                    load = new loadingPopup();
+                },
+                success( user ){
+                    load.remove();
+                    res(user)
+                },
+                error(e){
+                    rej(e)
+                }
+            })
+        })
+    }
+
+    //遮罩层
+    function loadingPopup(){
+        this.load = $('<div class="loading"><div>获取中。。。</div></div>');
+        $('body').append(this.load);
+    }
+    loadingPopup.prototype.remove = function(){
+        this.load.remove();
     }
 </script>
 </html>

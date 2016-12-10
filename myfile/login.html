@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>登录</title>
+</head>
+<body>
+    <h2>登录聊天室</h2>
+    <section>
+        <fieldset>
+            <p><span>用户名：</span><input type="text" name='username' placeholder="用户名"></p>
+            <p><span>密码：</span><input type="password" name='password' placeholder="密码"></p>
+            <p>
+                <button>登录</button>
+            </p>
+        </fieldset>
+    </section>
+</body>
+<script src='js/jquery-1.11.3.js'></script>
+<script src='js/browser.min.js'></script>
+<script>
+
+    $(()=>{
+        $('button').on('click',()=>{
+            let u = $('input[name="username"]').val(),
+                p = $('input[name="password"]').val();
+                if( u && p ){
+                    login( u,p )
+                            .then((data)=>{
+                                window.location.href ='/webSocket.html'
+                            })
+                            .catch((e)=>{
+                                alert('登录失败')
+                                console.log(e)
+                            })
+                }
+        })
+    })
+
+    function login( username,password ){
+        return new Promise(( res,rej )=>{
+            $.ajax({
+                url:"/login",
+                type:"POST",
+                data:{
+                    username:username,
+                    password:password
+                },
+                dataType:"json",
+                success(data){
+                    res(data)
+                },
+                error(e){
+                    rej(e)
+                }
+            })
+        })
+    }
+</script>
+</html>
