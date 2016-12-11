@@ -10,7 +10,9 @@
     <h2>在线聊天室</h2>
     <p>当前在线人数 : <span class="userNum">--</span> 用户名:<span class="username">--</span></p>
     <section class="talk-section">
+        <ul>
 
+        </ul>
     </section>
     <div class="talk-btn">
         <input type="text" class="btn inp-message" placeholder="输入消息">
@@ -22,6 +24,7 @@
 <!--这里是个坑 不是相对路径  服务器启动后会生成一个socket.io的路径-->
 <script src="/socket.io/socket.io.js"></script>
 <script>
+    let u = undefined;
     $(()=>{
         //建立socket
         let socket = io.connect('http://localhost:666');
@@ -29,20 +32,26 @@
         //接受到当前登录用户后  发送给后台 
         user('/user').then((username)=>{
             socket.emit('login',username);
+            $('.username').text(username.username);
+        })
+        //后台连接成功 发送open 方法过来 前台监听到
+        socket.on('open',()=>{
+            popup.connectSuccessTip();
         })
         //监听用户进入
         socket.on('login',( data )=>{
             console.log('用户登录成功--用户信息：',data)
             let {userNum,username} = data;
+                popup.userJoinTip(username );
             $('.userNum').text(userNum);
-            $('.username').text(username.username);
-            $('.talk-section').append($('<div>连接服务器成功~可以开始说骚话了</div>'))
         });
         //接受服务器发过来的消息
         socket.on('message', messageInfo =>{
             console.log('服务器发来消息',messageInfo )
-            var $text = $('<p class="message">'+ messageInfo.message +'<span class="message-info">'+ messageInfo.username +'<span class="message-time">'+ messageInfo.time +'</span></p>');
-            $('.talk-section').append($text).scrollTop( $('.talk-section')[0].scrollHeight)
+            showMessage(
+                 messageInfo,
+                isSelfMessage( messageInfo)
+                )
 
         })
         socket.on('error',error =>{
@@ -69,9 +78,12 @@
             let $message = $('.inp-message').val();
             let date = new Date();
             let time = date.getHours() + ":" + date.getMinutes()+":" + date.getSeconds();
+            if( !$message )
+                return alert('消息不能为空')
             socket.send({
                 message:$message,
-                time:time
+                time:time,
+                username :u
             });
             res({
                 message:$message,
@@ -79,7 +91,19 @@
             });
         })
     }
+    //显示消息
+    function showMessage( messageInfo,isSelfMessage ){
+        const {message,username,time} = messageInfo;
+        var text = isSelfMessage ? $('<li class="message pull-right"><p>'+ message +'</p><p><span class="message-info">'+ username +'</span><span class="message-time">'+ time +'</span></p></li>') 
+                                 : $('<li class="message pull-left"><p>'+ message +'</p><p><span class="message-info">'+ username +'</span><span class="message-time">'+ time +'</span></p></li>') 
+        $('.talk-section>ul').append(text);
+        $('.talk-section').scrollTop( $('.talk-section')[0].scrollHeight)
+    }
 
+    //判断当前消息是否是自己发的  自己发的显示在右边  否则在左边
+    function isSelfMessage( messageInfo ){
+        return u === messageInfo.username;
+    }
     //用户当前登录用户信息
     function user( url ){
         return new Promise(( res,rej )=>{
@@ -89,10 +113,11 @@
                 data:{},
                 dataType:"json",
                 beforeSend(){
-                    load = new loadingPopup();
+                    popup.loading();
                 },
                 success( user ){
-                    load.remove();
+                    popup.hideLoading();
+                    u = user.username;
                     res(user)
                 },
                 error(e){
@@ -102,13 +127,40 @@
         })
     }
 
-    //遮罩层
-    function loadingPopup(){
-        this.load = $('<div class="loading"><div>获取中。。。</div></div>');
-        $('body').append(this.load);
-    }
-    loadingPopup.prototype.remove = function(){
-        this.load.remove();
-    }
+
+    //弹窗组件
+    (($)=>{
+        const popup = {
+            body:$('body'),
+            section:$('.talk-section'),
+            createEle(){
+                this.loadEle =  $('<div class="loading"><div>获取中。。。</div></div>');
+                this.connectEle = $('<div class="connectSuccessTip">连接服务器成功,开始说骚话吧:)</div>')
+                this.body.append(this.loadEle,this.connectEle)
+            },
+            loading(){
+                this.loadEle && this.loadEle.fadeIn();
+            },
+            hideLoading(){
+                 this.loadEle && this.loadEle.fadeOut();
+            },
+            userJoinTip( username,time ){
+                if(this.setTime)
+                        clearTimeout(this.setTime)
+                this.userEle = $('<div class="userJoinTip">骚猪【'+ username +'】进入了本房间~</div>');
+                this.section.append(this.userEle);
+                this.setTime = setTimeout(()=>{
+                    this.userEle.remove();
+                },time || 3000)
+            },
+            connectSuccessTip( ){
+                setTimeout(()=>{
+                    this.connectEle.removeClass().hide();
+                },2000)
+            }
+        }
+        popup.createEle();
+        window['popup'] = popup;
+    })(jQuery)
 </script>
 </html>

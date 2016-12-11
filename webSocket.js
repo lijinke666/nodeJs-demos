@@ -22,8 +22,7 @@ app.get('/',( req,res,next )=>{
 })
 app.post('/login',( req,res )=>{
     let {username,password} = req.body;
-    res.cookie("app",username,{maxAge:1000*60*60*24});  
-    u = username;  
+    res.cookie("app",username,{maxAge:1000*60*5});   //五分钟过期时间
     console.log('进来了')
    res.send({success:1})
 })
@@ -36,26 +35,25 @@ app.get('/user',( req,res,next )=>{
 io.on('connection',( socket )=>{
     console.log('服务端<----->客户端连接成功:)');
     socket.emit('open'); //通知客户端已连接
-    socket.on('login',( username )=>{
+    socket.on('login',( userInfo )=>{
         //如果当前的userId 没有重复  就向user  添加一条 在线人数+1
         let isRepart = user.map(( v,i )=>{
             return v['username']
-        }).indexOf(username['username']);
+        }).indexOf(userInfo['username']);
         if( isRepart === -1 ){
             userNum ++;
-            user.push(username);
+            user.push(userInfo);
         }
-
         //向所有用户 推送当前用户登录信息
-        io.emit('login',{username,userNum:userNum})
-        console.log('新用户加入=>',username)
+        io.emit('login',{username:userInfo.username,userNum:userNum})
+        console.log('新用户加入=>',userInfo)
     })
     socket.on('message',( messageInfo )=>{
         //向所有用户 推送当前消息
-        io.emit('message',Object.assign({ username:u },messageInfo));
+        io.emit('message',messageInfo);
         console.log('客户端发来消息=>',messageInfo)
     })
 })
 http.listen(666,()=>{
-    console.log('gogogo~')
+    console.log('骚的一匹~')
 })
