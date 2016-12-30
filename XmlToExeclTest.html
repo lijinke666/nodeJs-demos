@@ -77,11 +77,11 @@
             let i = 0;
             const files = Array.prototype.slice.call(this.files);
             for(let file of files){
-                $('.bar').text(++i);
-                createProgress(file.name,file.size);
                 if( !xmlFileRegExp(file.type) ){
                     return alert('请选择正确的xml文件');
                 }
+                $('.bar').text(++i);
+                createProgress(file.name,file.size);
                 const reader = new FileReader();
                 reader.onerror = () =>{
                     console.log(`${file.name}读取失败!`)
