@@ -54,6 +54,6 @@ io.on('connection',( socket )=>{
         console.log('客户端发来消息=>',messageInfo)
     })
 })
-http.listen(666,()=>{
+http.listen(7777,()=>{
     console.log('骚的一匹~')
 })

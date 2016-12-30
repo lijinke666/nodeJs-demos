@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        h2{
+            text-align: center;
+        }
+        #upload{
+            width: 100%;
+            height: 40px;
+            display: block;
+            text-align: center;
+            background-color: #396;
+            color:#FFF;
+            border:none;
+        }
+        #select-file{
+            width: 200px;
+            height: 30px;
+        }
+        .hidden{ display: none;}
+        .bar{
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-color: #dd1539;
+            color:#FFF;
+            line-height: 15px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<h2>XML转换excel表</h2>
+<form name="uploadForm" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <p>上传XML文件: <button type="button" id="select-file">选择文件 <span class="bar">0</span></button> <input type="file" class="hidden" name="file" id="file" multiple/></p>
+        <section>
+            <ul class="content"></ul>
+        </section>
+        <button type="button" id="upload">上传</button>
+    </fieldset>
+</form>
+</body>
+<script src="jquery-1.9.1.min.js"></script>
+<script>
+    const uploadUrl = 'http://localhost:3000/dev/xmlToExcelTest/updateXml';
+    $(()=>{
+        checkFileType();
+        $('#upload').on('click',()=>{
+            if( $('#file').val() === '' )return alert('请选择文件');
+            uploadFormData( uploadUrl ).then( (data) =>{
+                console.log(data)
+            }).catch(e=>{
+                console.log(e)
+            });
+        });
+    });
+
+    //上传数据
+    function uploadFormData( action ){
+        const formEle = $("form[name='uploadForm']")[0];
+        const formData = new FormData(formEle);
+        return fetch(action,{
+            method:"POST",
+            mode: "no-cors",
+            body:formData
+        })
+    }
+    //验证是否为xml格式
+    function checkFileType(){
+        let $file = $('#file');
+        $('#select-file').on('click',()=>{ $file.click() });
+        $file.change(function(){
+            let i = 0;
+            const files = Array.prototype.slice.call(this.files);
+            for(let file of files){
+                $('.bar').text(++i);
+                createProgress(file.name,file.size);
+                if( !xmlFileRegExp(file.type) ){
+                    return alert('请选择正确的xml文件');
+                }
+                const reader = new FileReader();
+                reader.onerror = () =>{
+                    console.log(`${file.name}读取失败!`)
+                };
+                reader.onload = () =>{
+                    console.log(`${file.name}读取成功,文件大小：${file.size/1024}KB`)
+                }
+            }
+        })
+    }
+
+    //验证是否为xml格式
+    function xmlFileRegExp( fileType ){
+        return /.*\/(?:xml)$/i.test( fileType )
+    }
+
+    function createProgress( fileName,fileSize ){
+        let ele = $("<li>文件信息："+ fileName+"【"+ ~~(fileSize/1024) +"KB】</li>");
+        $('.content').append(ele)
+    }
+</script>
+</html>

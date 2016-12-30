@@ -27,7 +27,7 @@
     let u = undefined;
     $(()=>{
         //建立socket
-        let socket = io.connect('http://localhost:666');
+        let socket = io.connect('http://192.168.35.61:7777');
         //连接
         //接受到当前登录用户后  发送给后台 
         user('/user').then((username)=>{
@@ -59,7 +59,7 @@
         })
 
         let $btnSend = $('.btn-send');
-        $btnSend.on('click',()=>{
+        $btnSend.on('click touchstart',()=>{
             sendMessage(socket)
                 .then(data=>{
                     $('.inp-message').val("").focus();
