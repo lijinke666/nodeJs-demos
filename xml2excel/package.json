@@ -1,0 +1,21 @@
+{
+  "name": "xml2excel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ls & node app.js & http-server"
+  },
+  "author": "ljk&&guoping",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "busboy": "^0.2.13",
+    "express": "^4.14.0",
+    "json2xls": "^0.1.2",
+    "multiparty": "^4.1.2",
+    "multiple": "^0.2.1",
+    "xml2js": "^0.4.17"
+  }
+}

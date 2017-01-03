@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        h2{
+            text-align: center;
+        }
+        #upload{
+            width: 100%;
+            height: 40px;
+            display: block;
+            text-align: center;
+            background-color: #396;
+            color:#FFF;
+            border:none;
+        }
+        #select-file{
+            width: 200px;
+            height: 30px;
+            margin-right: 20px;
+        }
+        .content>li{
+            margin-bottom: 10px;
+        }
+        .hidden{ display: none;}
+        .bar{
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-color: #dd1539;
+            color:#FFF;
+            line-height: 15px;
+            border-radius: 50%;
+        }
+        .progress{
+            display: inline-block;
+            width: 200px;
+            height: 10px;
+            border-radius: 2em;
+            position: relative;
+            background-color: #ccc;
+        }
+        .progress .pro{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 0;
+            height: 10px;
+            border-radius: 2em;
+            transition: width .3s ease-in-out;
+            background-color: #396;
+        }
+        .progress + .success{
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 2px 20px;
+            background-color: #406f99;
+            border-radius: 1em;
+            color:#FFF;
+            display: none;
+            font-size:12px;
+        }
+    </style>
+</head>
+<body>
+<h2>XML转换excel表</h2>
+<form name="uploadForm" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <p>上传XML文件:
+            <button type="button" id="select-file">选择文件 <span class="bar">0</span></button>
+            <label>文件类型：</label>
+            <select name="type" id="type">
+                <option value="wifi">wifi</option>
+                <option value="feedback">feedback</option>
+                <option value="psgbehavior">psgbehavior</option>
+            </select>
+            <input type="file" class="hidden" name="file" id="file" multiple/></p>
+        <section>
+            <ul class="content"></ul>
+        </section>
+        <button type="button" id="upload" >上传</button>
+    </fieldset>
+</form>
+</body>
+<script src="jquery-1.9.1.min.js"></script>
+<script>
+    const uploadUrl = '/updateXml';
+    $(()=>{
+        init();
+    });
+    function init(){
+        readFile();
+        $("#upload").on('click',()=>{
+            if( $('#file').val() === '' )return alert('请选择文件');
+            uploadFormData( uploadUrl ).then( res =>{
+                res.json().then( data =>{
+                    data.forEach( fileInfo =>{
+                        let {fileName} = fileInfo;
+                        $('#'+shift(fileName)).find('.progress>.pro').css("width","100%");
+                        $('#'+shift(fileName)).find('.success').fadeIn()
+                    })
+                })
+            }).catch(e=>{
+                console.error(e)
+            });
+        });
+    }
+    //上传数据
+    function uploadFormData( action ){
+        const formEle = $("form[name='uploadForm']")[0];
+        const formData = new FormData(formEle);
+        let type = $('#select-type').val();
+        return fetch(action,{
+            method:"POST",
+            mode:"no-cors",
+            body:formData
+        })
+    }
+    //读取文件
+    function readFile(){
+        let $file = $('#file');
+        $('#select-file').on('click',()=>{ $file.click() });
+        $file.change(function(){
+            $('.content').empty();
+            let i = 0;
+            const files = Array.prototype.slice.call(this.files);
+            for(let file of files){
+                let {type,name,size} = file;
+                if( !xmlFileRegExp(type) ){
+                    return alert('请选择正确的xml文件');
+                }
+                $('.bar').text(++i);
+                createProgress(name,size);
+                const reader = new FileReader();
+                reader.onerror = () =>{
+                    console.log(`${file.name}读取失败!`)
+                };
+                reader.onload = () =>{
+                    console.log(`${file.name}读取成功,文件大小：${file.size/1024}KB`)
+                }
+            }
+        })
+    }
+
+    //验证是否为xml格式
+    function xmlFileRegExp( fileType ){
+        return /.*\/(?:xml)$/i.test( fileType )
+    }
+
+    function createProgress( fileName,fileSize ){
+        let ele = $("<li id="+shift(fileName)+">文件信息："+ fileName+"【"+ ~~(fileSize/1024) +"KB】" +
+                    "<span class='progress'><span class='pro'></span></span> " +
+                    "<a href='javascript:;' class='success'>完成</a>" +
+                "</li>");
+        $('.content').append(ele)
+    }
+
+    function shift(fileName){
+        return fileName.split('.').shift();
+    }
+</script>
+</html>
