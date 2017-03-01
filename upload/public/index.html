@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    progress {
+      transition: all .4s;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" id='file' />
+    <button type="button">上传</button>
+  </form>
+  <progress value="0" max="100">50%</progress>
+</body>
+<script>
+  window.onload = () => {
+    let btn = document.querySelector('button');
+    btn.addEventListener('click', function(e) {
+      let formData = new FormData();
+
+      formData.append('upload', document.getElementById('file').files[0])
+
+      // body...
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload');
+      xhr.onload = (res) => {
+        if (xhr.status === 200) {
+          console.log(res)
+        } else {
+          console.error('错误');
+        }
+      }
+      xhr.send(formData)
+
+      //进度条
+      xhr.onprogress = e => {
+        console.log('sdssdf',e)
+      }
+    });
+
+  }
+</script>
+
+</html>
