@@ -55,12 +55,8 @@ app.post("/musicDetail",(req,res)=>{
   })
   req.on('end',()=>{
     const {id} = JSON.parse(d)
-    for(let v of data){
-      if(v.id == id){
-        res.send({info:v['info']});
-        break;
-      }
-    }
+    var infoData = data.find(item=>item.id == id)
+        res.send(infoData);
     // res.send('11')
   })
 })
