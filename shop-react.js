@@ -66,4 +66,4 @@ app.post("/musicDetail",(req,res)=>{
 })
 const PORT = app.get('port')
 
-app.listen(PORT, () => console.log(`express listing ${PORT}`))
+app.listen(PORT, () => console.log(`shop react app server ---listen ${PORT}`))
