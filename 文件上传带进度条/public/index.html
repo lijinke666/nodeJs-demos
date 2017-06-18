@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>文件上传demo</h1>
+    <form class="upload-form" encType="multipart/form-data">
+        <input type="file" name="file" value="选择文件" class="file-btn" multiple/>
+        名字:<p class="name"></p>
+        大小:<p class="size"></p>
+        类型:<p class="type"></p>
+        图片:  <p class="img"></p>
+        <button type="button" class="upload-btn">文件上传</button>
+        <progress value="0" max="100"></progress><span class="progress"></span>%
+    </form>
+</body>
+<script>
+    window.onload = ()=>{
+        // fileReader()   读取文件信息  显示在页面上
+        const file_btn = $('.file-btn')
+        file_btn.addEventListener('change',function(){
+            console.log(this.files);
+            // const files = Array.prototype.slice.call(this.files)
+            const files = Array.from(this.files)
+            files.forEach((item,i)=>{
+                let {name,size,type} = item
+                $('.name').innerHTML = name
+                $('.size').innerHTML = `${~~(size /1024)}kb`
+                $('.type').innerHTML = type
+
+                const reader = new FileReader()
+                reader.onloadstart = ()=>{
+                    console.log('开始读取')
+                }
+                reader.onprogress = ()=>{
+                    console.log('正在读取。。')
+                }
+                reader.onload = function(){
+                    const img = this.result
+                    const node = document.createElement('img')
+                    node.src = img
+                    node.onload = function(){
+                        $('.img').appendChild(node)
+                    }
+                }
+                reader.onloadend = ()=>{
+                    console.log('读取完成');
+                }
+
+                reader.readAsDataURL(item)
+            })
+        })
+
+        $('.upload-btn').addEventListener('click',function(){
+            upload()
+        })
+    }
+    function $(selector){
+        return document.querySelector(selector)
+    }
+
+    function upload(){
+                //ajax2.0  progress 进度接口   讲表单的数据 传输到后台  后台保存这个文件
+        const form = new FormData($('.upload-form'))
+        const xhr = new XMLHttpRequest()
+
+
+        xhr.onload = function(data){
+            console.log(data);
+        }
+        xhr.upload.onprogress = function(e){
+                var progress = Math.round(e.loaded * 100 / e.total)
+                $('progress').value = progress
+                $('.progress').innerHTML = progress
+        }
+
+        xhr.open("POST","/uploadFile",true);
+        xhr.send(form);
+    }
+</script>
+</html>
