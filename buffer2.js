@@ -24,13 +24,12 @@ const createBuffer = (size)=> (fnName)=> (content,offset)=>{
  * 尝试buffer的拼接
  */
 
- const test = createBuffer(2)('writeInt16')(0,0)
- console.log(test);
 
 const buf1 = Buffer.allocUnsafe(2).writeInt16LE(0)
 const buf2 = Buffer.allocUnsafe(4).writeInt32LE(0)
 const buf3 = Buffer.allocUnsafe(4).writeInt32LE(0)
 const buf4 = new Int64(Buffer.allocUnsafe(8).writeInt32LE(0x11223344))
+console.log(parseInt(buf4.toString('hex'),16));
 const buf5 = Buffer.allocUnsafe(1).writeIntLE(0)
 const buf6 = Buffer.allocUnsafe(4).writeInt32LE(0)
 const buf7 = Buffer.allocUnsafe(8).writeInt32LE(0)
@@ -65,6 +64,12 @@ console.log(bufInt);
 // const y = new Int64('123456789abcdef0')
 
 // console.log(x,y);
+
+//64进制
+var buf4 = new Buffer(8) // 8字节的空buffer
+var x = new Int64(1056) // 64进制的1057
+var buffer_64 = x.toBuffer() // 取到64进制的1057的buffer
+buffer_64.copy(buf4, 0) // 将64进制的值赋值给buf4
 
 
 
