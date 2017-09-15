@@ -6,10 +6,18 @@ const net = require('net')
 const HOST = '192.168.2.154'
 const PORT = 9002
 
-const client = new net.Socket()
 
-client.connect(PORT,HOST,()=>{
+var x = 0;
+// const client = new net.Socket()
+const client = net.createConnection(PORT,HOST)
+
+client.on("connect",()=>{
     console.log('连接成功');
+    var g = new Buffer(6);
+    g.writeInt32BE(2, 0);
+    g.writeInt16BE(2, 4);
+    console.log(g);
+    client.write(g);
 })
 
 client.on('data',(data)=>{
@@ -19,3 +27,9 @@ client.on('data',(data)=>{
 client.on('close',()=>{
     console.log('连接关闭');
 })
+
+
+setTimeout(()=>{
+    console.log('ghjgjkhkljhlhlkh');
+    client.end('')
+},8000)
