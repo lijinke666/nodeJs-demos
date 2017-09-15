@@ -14,6 +14,7 @@
     "mysql": "^2.12.0",
     "node-int64": "^0.4.0",
     "power-assert": "^1.4.4",
+    "protobufjs": "^6.8.0",
     "socket.io": "^1.7.1"
   },
   "dependencies": {
