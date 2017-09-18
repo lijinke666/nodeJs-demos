@@ -1,0 +1,372 @@
+////////////////////////////////////////////////////////////
+// 常量定义
+////////////////////////////////////////////////////////////
+// 通用的常量
+enum ENCommon
+{
+    option allow_alias = true;
+    EN_POKER_MAX_HANDLER_NUM    = 2000; // 最大handler类型
+    EN_POKER_MAX_DATATYPE_NUM   = 20;	// 存储在key-value服务器的最大数据类型数
+    EN_POKER_APPID = 103;
+    EN_POKER_BASE64_TYPE = 62; 
+    EN_POKER_MAX_NICK_NAME_LEN = 64;
+    EN_POKER_MAX_3RD_ACC_NAME_LEN = 64;
+    EN_POKER_SESSION_MAX_REDO = 5; // session最大重做次数
+    EN_POKER_MAX_KVDB_BUFFER_LEN = 32768; // 玩家单个key数据最大值
+    EN_POKER_REDIS_SWAP_COUNT_PER_SEC = 1; // redis每秒检查换出的数量
+    EN_POKER_REDIS_KEEP_TIME = 86400; // redis缓存key的时间，秒
+    EN_POKER_TOPLIST_PROCESS_INTERVAL = 3600; // 排行发送日志间隔
+    EN_POKER_TOPLIST_CHECK_INTERVAl = 60; // 排行定时检查间隔
+    EN_POKER_CHECK_SESSION_LEAK_INTERVAL = 600; // 检查session泄漏间隔
+    EN_POKER_PRINT_SESSION_TIME_INTERVAL = 600; // 检查session处理时间间隔
+
+    EN_ROBOT_MIN_ACTION_DELAY  = 1000; // 最小出牌延迟，毫秒
+    EN_ROBOT_MAX_ACTION_DELAY  = 4000; // 最大出牌延迟，毫秒
+    EN_ROBOT_MIN_SITDOWN_DELAY = 5000; // 最小坐下延迟，毫秒
+    EN_ROBOT_MAX_SITDOWN_DELAY = 60000; // 最大坐下延迟，毫秒
+    EN_ROBOT_MIN_ONDUTY_TIME   = 18000; // 最小上班时间，秒
+    EN_ROBOT_MAX_ONDUTY_TIME   = 25200; // 最大上班时间，秒
+    EN_POKER_TUOGUAN_COUNT     = 2; // 托管出牌次数
+    EN_POKER_UNKNOW_CARD       = 100; // 未知牌型的统一定义
+    EN_POKER_TABLE_STATE_KEEP_TIME = 600; // 在桌上状态保留时间，秒
+
+    EN_POKER_PLAYER_HEART_BEAT_CHECK_INTERVAL = 60; // 玩家心跳检查间隔，秒
+    EN_POKER_ROOMSVR_HEART_BEAT_INTERVAL = 60; // 房间服务器心跳间隔，秒
+    EN_POKER_TIMER_CHECK_INTERVAL = 200; // 房间服务器心跳间隔，毫秒
+    EN_POKER_MATCH_TIMER_CHECK_INTERVAL = 100; // 房间服务器心跳间隔，毫秒
+
+    EN_POKER_MAX_CHAT_LEN = 160;    //最大聊天内容长度
+
+    EN_POKER_CHECK_LOCK_DATA_INTERVAL   = 1;
+    EN_POKER_MAX_CHECK_LOCK_DATA_NUM    = 5;
+    EN_POKER_LOCK_LEVELDB_TIMEOUT       = 1800;
+    EN_POKER_GAME_TO_ROOM_HEART_BEAT_INTERVAL    = 60;
+}
+
+//redis数据类型
+enum ENRedisDataType
+{
+    EN_REDIS_DATA_TYPE_USER = 1; // 用户数据
+}
+
+// 通用错误码
+enum ENMessageError
+{
+    EN_MESSAGE_ERROR_OK = 0;
+
+    // 通用错误
+    EN_MESSAGE_ERROR_RSA_FAILED           = 1;  // rsa验证失败
+    EN_MESSAGE_ERROR_PLAYER_FULL          = 2;  // 玩家满了
+    EN_MESSAGE_ERROR_LOAD_DATA_FAILED     = 3;  // 加载数据错误
+    EN_MESSAGE_ERROR_INVALID_TABLE_ID     = 4;  // 无效的桌号
+    EN_MESSAGE_ERROR_INVALID_PLAYER_INDEX = 5;  // 无效的座位号
+    EN_MESSAGE_ERROR_ALREADY_SIT          = 6;  // 已经坐下
+    EN_MESSAGE_ERROR_ALREADY_SIT_BY_OTHER = 7;  // 已经被其他人坐下
+    EN_MESSAGE_ERROR_INVALID_CHIPS_NUM    = 8;  // 无效的筹码数量
+    EN_MESSAGE_ERROR_WAIT_PLAYER_FULL     = 9;  // 等待队列满了
+    EN_MESSAGE_ERROR_PLAYER_NOT_IN_TABLE  = 10; // 玩家不在桌子
+    EN_MESSAGE_ERROR_NO_EMPTY_PLAYER      = 11; // 不是空的座位
+    EN_MESSAGE_ERROR_NOT_ALLOW_ACTION     = 12; // 不允许的操作
+    EN_MESSAGE_ERROR_UID_NOT_MATCH        = 13; // uid不匹配
+    EN_MESSAGE_ERROR_NOT_ENOUGH_CHIPS     = 14; // 没有足够的筹码
+    EN_MESSAGE_ERROR_ALREADY_IN_WAIT_LIST = 15; // 已经在等待队列
+    EN_MESSAGE_ERROR_INVALID_GOOD_ID      = 16; // 商品ID无效
+    EN_MESSAGE_ERROR_BASE64_ENCODE        = 17; // base64编码失败
+    EN_MESSAGE_ERROR_INVALID_WORD         = 18; // 具有非法的敏感词
+    EN_MESSAGE_ERROR_INVALID_NICKNAME_LEN = 19; // 非法的昵称长度
+    EN_MESSAGE_ERROR_PROP_FULL = 20; // 背包满了
+    EN_MESSAGE_ERROR_INVALID_PROP_ID = 21; // 背包满了
+    EN_MESSAGE_ERROR_INVALID_AWARD_TYPE = 22;  // 非法的奖励类型
+    EN_MESSAGE_ERROR_SAME_ORDERID = 23;        // 有相同的订单正在处理
+    EN_MESSAGE_ERROR_INVALID_ORDERID = 24;        // 无效的订单
+    EN_MESSAGE_ERROR_INVALID_TABLE_STATE = 25;        // 无效的房间状态
+    EN_MESSAGE_ERROR_INVALID_PLAYER_UID = 26;        // UID
+    EN_MESSAGE_ERROR_GM_FAIL = 27;        // GM指令
+    EN_MESSAGE_ERROR_INVALID_FCODEID = 28;        // 无效的兑换码
+    EN_MESSAGE_ERROR_EXPIRED_FCODEID = 29;        // 兑换码过期
+    EN_MESSAGE_ERROR_INVALID_UID = 30; // 非法的uid
+    EN_MESSAGE_ERROR_INVALID_BANKRUPTCY_PROTECTION = 31; // 非法的
+    EN_MESSAGE_ERROR_SAME_IP_ALREADY_SIT = 32;	//同ip同桌子
+    EN_MESSAGE_ERROR_INVALID_ORDERID_PAYMENT = 33;        // 无效订单支付
+    EN_MESSAGE_ERROR_SHOP_CLOSE = 34;        // 商城购买
+    EN_MESSAGE_ERROR_INVALID_REQ_NOVICEPACKAGE = 35;        //无效的新手礼包
+    EN_MESSAGE_ERROR_INVALID_CONFIG = 36;        // 无效的配置
+    EN_MESSAGE_ERROR_ALREADY_IN_OTHER_TABLE = 42; // 已经在其他房间了
+    EN_MESSAGE_ERROR_NOT_IN_TABLE = 66; // 不在桌上
+	EN_MESSAGE_ERROR_TABLE_MAX_WAIT_PLAYER_NUM = 39;	//房间已达到最大旁观人数限制
+    EN_MESSAGE_ERROR_CHAT_TOO_LONG = 67; //聊天内容太长
+    EN_MESSAGE_ERROR_SNG_ALREADY_SIGNUP = 68; //sng比赛已经报名
+    EN_MESSAGE_ERROR_WRONG_TABLE_TYPE = 69; // 房间类型错误
+    EN_MESSAGE_ERROR_SNG_SIGNUP_TABLE_FULL = 70; //sng比赛报名房间已满
+    EN_MESSAGE_ERROR_SNG_NOT_SIGNUP = 71; //sng比赛必须先报名
+    EN_MESSAGE_ERROR_TUO_GUAN_INVALID_STATUS = 72; // 无效的托管状态设置，当前只有在设置状态与玩家当前一致时发生此错误
+
+    EN_MESSAGE_ERROR_BUY_IN_NOT_ENOUGH = 73; // 用户桌外的钱不足以带入桌内
+    EN_MESSAGE_ERROR_BUY_IN_TOO_MUCH = 74; // 用户桌内的钱超过带入
+    EN_MESSAGE_ERROR_MORE_CHIPS_THAN_TRAINING_LEVEL = 75; // 用户身上的钱高于训练桌的最高带入要求
+
+    EN_MESSAGE_ERROR_NO_OPEN_SEAT = 76; // 如果预留座位大于等于座位总数
+    EN_MESSAGE_ERROR_OPEN_SEAT_FULL = 77; // 如果预留座位小于座位总数
+
+    EN_MESSAGE_ERROR_NO_CONF                = 100;
+    EN_MESSAGE_ERROR_TABLE_FULL             = 101;
+    EN_MESSAGE_ERROR_INVALID_CREATE_TIME    = 102;
+    EN_MESSAGE_ERROR_CANT_BUY_IN_NOW        = 103;
+    EN_MESSAGE_ERROR_CREATE_FULL            = 104;
+    EN_MESSAGE_ERROR_TRAINING_CHANGE_COOL_DOWN_NOT_ENOUGH            = 105;
+
+    // 内部错误
+    EN_MESSAGE_ERROR_SVR_TIMEOUT         = 10011;
+    EN_MESSAGE_ERROR_TIMEOUT_ROOM_SVR    = 10015;
+    EN_MESSAGE_ERROR_TIMEOUT_GM_SVR      = 10016;
+    EN_MESSAGE_ERROR_SHOPGEN_ORDER_TIMEOUT = 10017;
+    EN_MESSAGE_ERROR_KVDB_SELECT         = 10001;
+    EN_MESSAGE_ERROR_KVDB_UPDATE         = 10002;
+    EN_MESSAGE_ERROR_KVDB_DELETE         = 10003;
+    EN_MESSAGE_ERROR_KVDB_INSERT         = 10004;
+    EN_MESSAGE_ERROR_TIMEOUT_KVDB_SELECT = 10005;
+    EN_MESSAGE_ERROR_TIMEOUT_KVDB_UPDATE = 10006;
+    EN_MESSAGE_ERROR_TIMEOUT_KVDB_DELETE = 10007;
+    EN_MESSAGE_ERROR_TIMEOUT_KVDB_INSERT = 10008;
+    EN_MESSAGE_ERROR_TIMEOUT_GTPL_SVR    = 10012;
+    EN_MESSAGE_ERROR_ROBOT_ACTION = 10018; // 机器人行为
+    EN_MESSAGE_ERROR_NOT_ENOUGH_MYSQLDB_SESSION = 10019; // 机器人行为
+    EN_MESSAGE_ERROR_ACCESS_MYSQLDB_FAILED = 10020; // 机器人行为
+    EN_MESSAGE_ERROR_MYSQLDB_SELECT         = 10021;
+    EN_MESSAGE_ERROR_MYSQLDB_UPDATE         = 10022;
+    EN_MESSAGE_ERROR_TIMEOUT_MYSQLDB_SELECT = 10023;
+    EN_MESSAGE_ERROR_TIMEOUT_MYSQLDB_UPDATE = 10024;
+    EN_MESSAGE_ERROR_GTPL_ERROR = 10025;
+    EN_MESSAGE_ERROR_ROOMSVR_ERROR = 10026;
+    EN_MESSAGE_ERROR_GMSVR_ERROR = 10027;
+    EN_MESSAGE_ERROR_MYSQLDB_INSERT         = 10028;
+    EN_MESSAGE_ERROR_TIMEOUT_MYSQLDB_INSERT = 10029;
+    EN_MESSAGE_ERROR_SHOP_SVR = 10030;
+    EN_MESSAGE_ERROR_ACTIVITY_NOT_OPEN = 10031;
+    EN_MESSAGE_ERROR_MYSQLDB_NOT_FOUND = 10032;     //DB操作EffectRow不大于0
+    EN_MESSAGE_ERROR_KVDB_FAILED = 10033; 
+    EN_MESSAGE_ERROR_BASEDB_ERROR = 10034;
+    EN_MESSAGE_ERROR_BASEDB_TIMEOUT = 10035;
+    EN_MESSAGE_ERROR_REDIS_QUERY_ERROR = 10040;
+    EN_MESSAGE_ERROR_REDIS_SAVE_ERROR = 10041;
+    EN_MESSAGE_ERROR_REDIS_SAVE_VERSION_NOT_MATCH = 10042;
+}
+
+// 配置文件版本类型
+enum ENConfigType
+{
+    EN_CONFIG_TYPE_CREATE_TABLE = 1;
+    EN_CONFIG_TYPE_RAISE_BLIND  = 2;
+    EN_CONFIG_TYPE_TRAINING     = 3;
+    EN_CONFIG_TYPE_SPIN_REWARD  = 4;
+}
+
+// 房间类型
+enum ENTableType
+{
+    EN_TABLE_CREATE_NORMAL      = 0;
+    EN_TABLE_SNG_TIME           = 100;
+    EN_TABLE_TRAINING_TIME      = 200;
+}
+
+// 牌类型
+enum ENCardType
+{
+    EN_CARD_TYPE_SPADE   = 0; // 黑桃
+    EN_CARD_TYPE_HEART   = 1; // 红心
+    EN_CARD_TYPE_DIAMOND = 2; // 方片
+    EN_CARD_TYPE_CLUB    = 3; // 梅花
+}
+
+// 牌点数
+enum ENCardValue
+{
+    EN_CARD_VALUE_2     = 0;  // 2
+    EN_CARD_VALUE_3     = 1;  // 3
+    EN_CARD_VALUE_4     = 2;  // 4
+    EN_CARD_VALUE_5     = 3;  // 5
+    EN_CARD_VALUE_6     = 4;  // 6
+    EN_CARD_VALUE_7     = 5;  // 7
+    EN_CARD_VALUE_8     = 6;  // 8
+    EN_CARD_VALUE_9     = 7;  // 9
+    EN_CARD_VALUE_10    = 8;  // 10
+    EN_CARD_VALUE_JACK  = 9;  // J
+    EN_CARD_VALUE_QUEEN = 10; // Q
+    EN_CARD_VALUE_KING  = 11; // K
+    EN_CARD_VALUE_ACE   = 12; // A
+}
+
+// 牌型
+enum ENCardForm
+{
+    EN_CARD_FORM_UNKONWN         = 0; // 未知
+    EN_CARD_FORM_HIGH_CARD       = 1; // 高牌
+    EN_CARD_FORM_ONE_PAIR        = 2; // 一对
+    EN_CARD_FORM_TWO_PAIR        = 3; // 两对
+    EN_CARD_FORM_THREE_OF_A_KING = 4; // 三条
+    EN_CARD_FORM_FLUSH           = 5; // 顺子
+    EN_CARD_FORM_STRAIGHT        = 6; // 同花
+    EN_CARD_FORM_FULL_HOUSE      = 7; // 葫芦
+    EN_CARD_FORM_FOUR_OF_A_KING  = 8; // 四条
+    EN_CARD_FORM_STRAIGHT_FLUSH  = 9; // 同花顺
+    EN_CARD_FORM_ROYAL_FLUSH     = 10; // 皇家同花顺
+}
+
+// 玩家行为
+enum ENPlayerAction
+{
+    EN_PLAYER_ACTION_BET    = 0; // 押注
+    EN_PLAYER_ACTION_CALL   = 1; // 跟注
+    EN_PLAYER_ACTION_CHECK  = 2; // 看牌
+    EN_PLAYER_ACTION_FOLD   = 3; // 弃牌
+    EN_PLAYER_ACTION_RAISE  = 4; // 加注
+    EN_PLAYER_ACTION_ALL_IN = 5; // 全押
+    EN_PLAYER_ACTION_PRE_BET    = 6;
+    EN_PLAYER_ACTION_NONE    = 7; // 默认状态，无任何动作
+}
+
+// 桌子状态
+enum ENTableState
+{
+    EN_TABLE_STATE_WAIT_MIN_PLAYER          = 0;  // 训练场等待最小玩家人数
+    EN_TABLE_STATE_WAIT_CLIENT_ACTION       = 1;  // 等待玩家操作
+    EN_TABLE_STATE_WAIT_ROUND_START         = 18;
+    EN_TABLE_STATE_WAIT_ROUND_END           = 2;  // 合奖池动画
+    EN_TABLE_STATE_WAIT_GAME_END            = 3;  // 等待游戏结束，结算动画
+
+    EN_TABLE_STATE_GAME_START               = 4;  // 游戏开始
+    EN_TABLE_STATE_ONE_GAME_START           = 5;  // 单局游戏开始
+    EN_TABLE_STATE_ROUND_START              = 6;  // 发牌
+    EN_TABLE_STATE_ROUND_REAL_START         = 17; // 回合开始
+    EN_TABLE_STATE_CONTINUE_ROUND           = 7;  // 回合继续
+    EN_TABLE_STATE_CONTINUE_ROUND_AND_SITUP = 8;  // 玩家站起
+    EN_TABLE_STATE_CONTINUE_ROUND_AND_EXIT  = 9;  // 玩家离开
+    EN_TABLE_STATE_CALC_POTS                = 10; // 回合开始前处理
+    EN_TABLE_STATE_ROUND_END                = 11; // 回合结束
+    EN_TABLE_STATE_GAME_ONE_END             = 12; // 单局游戏结束
+    EN_TABLE_STATE_GAME_ONE_REAL_END        = 13; // 单据游戏真正结束
+    EN_TABLE_STATE_GAME_END                 = 14; // 游戏结束
+
+    EN_TABLE_STATE_GAME_DEL                 = 15; // 房间释放
+    EN_TABLE_STATE_WAIT_GAME_START          = 16; // sng 未开始
+
+    EN_TABLE_STATE_PAY_BEFORE_ONE_GAME_START             = 20;
+    EN_TABLE_STATE_WAIT_PAY_BEFORE_ONE_GAME_START        = 120;
+    EN_TABLE_STATE_GAME_START_COUNTDOWN                  = 121; // sng比赛前N秒准备
+    EN_TABLE_STATE_WAIT_GAME_START_COUNTDOWN             = 122; // sng比赛前N秒准备ing
+    EN_TABLE_STATE_WAIT_GAME_START_ANIMATION_COUNTDOWN   = 123; // sng比赛前暴击场动画准备ing
+    EN_TABLE_STATE_WAIT_GAME_START_DELAY                 = 124; // sng比赛前暴击场延迟
+}
+
+// 座位状态
+enum ENPlayerState
+{
+    EN_PLAYER_STATE_NO_PLAYER                = 0; // 没有玩家
+    EN_PLAYER_STATE_PRE_SITDOWN              = 1; // 玩家准备坐下
+    EN_PLAYER_STATE_WAIT_FOR_NEXT_ONE_GAME   = 2; // 等待下一单局游戏
+    EN_PLAYER_STATE_PLAYING                  = 3; // 正在游戏中
+    EN_PLAYER_STATE_ALL_IN                   = 4; // 已经Allin
+    EN_PLAYER_STATE_FOLD                     = 5; // 已经弃牌
+}
+
+//性别
+enum ENGender
+{
+    EN_GENDER_FEMALE = 0;
+    EN_GENDER_MALE = 1;
+}
+
+
+enum ENRankListType
+{
+    EN_RANKLIST_TYPE_FULL       = 0; //全量排行榜
+    EN_RANKLIST_TYPE_INC_DAY    = 1; //日增量排行榜
+    EN_RANKLIST_TYPE_INC_WEEK   = 2; //周增量排行榜
+    EN_RANKLIST_TYPE_INC_MONTH  = 3; //月增量排行榜
+    EN_RANKLIST_TYPE_INC_YEAR   = 4; //年增量排行榜
+};
+
+
+// 登出原因
+enum ENLogoutType
+{
+    EN_LOGOUT_TYPE_CONFLICT_BY_OTHER = 0; // 其他玩家登录
+    EN_LOGOUT_TYPE_HEART_BEAT_TIMEOUT = 1; // 心跳超时
+    EN_LOGOUT_TYPE_TABLE_RELEASE = 2; // 桌子释放
+    EN_LOGOUT_TYPE_CLIENT_DISCONN = 3; // 客户端断开连接
+    EN_LOGOUT_TYPE_STAY_IN_TABLE_TOO_LONG = 4; // 在房间内站的太久
+    EN_LOGOUT_TYPE_REQUEST_LEAVE = 5; // 客户端请求离开房间
+    EN_LOGOUT_TYPE_BY_GM = 6; // GM指令
+}
+
+
+//版本检查操作
+enum ENVersionCheckAction
+{
+    EN_VERSION_CHECK_NEWEST = 0; // 最新
+    EN_VERSION_CHECK_VALID_BUT_CAN_UPDATE = 1; // 可登录但是不是最新的
+    EN_VERSION_CHECK_MUST_UPDATE = 2; // 必须更新
+    EN_VERSION_CHECK_MUST_UPDATE_RES_ALL = 3; //必须更新资源全量包
+    EN_VERSION_CHECK_MUST_UPDATE_RES_INC = 4; //必须更新资源增量包
+}
+
+
+enum ENUpdateReason
+{
+    EN_REASON_DEFAULT       = 0;
+    EN_REASON_SIT           = 1;
+    EN_REASON_STAND         = 2;
+    EN_REASON_TABLE_FEE     = 3;
+    EN_REASON_REGISTER      = 4;
+    EN_REASON_SNG_REWARD    = 5;
+    EN_REASON_SNG_SIGNUP    = 6;
+    EN_REASON_SNG_SIGNUP_REFUND    = 7;
+    EN_REASON_TRAINING_FEE         = 8;
+    EN_REASON_RESET_TIME    = 9;
+    EN_SIGNIN               = 1001; // 运营服务器：用户签到
+    EN_PAY                  = 1002; // 运营服务器：
+    EN_CONVERT              = 1003; // 运营服务器：钻石改金币
+    EN_OUTLINE              = 1004; // 运营服务器：后台充值
+    EN_WX                   = 1005; // 运营服务器：微信购买
+    EN_PAY_ALI              = 1006; // 运营服务器：App支付宝支付
+    EN_PAY_APPLE            = 1007; // 运营服务器：App苹果支付
+    EN_INVITE               = 1008; // 运营服务器：邀请码奖励
+    EN_OFFLINE_TICKET       = 1009; // 运营服务器：微信线下门票
+    EN_OFFLINE_REFUND       = 1010; // 运营服务器：微信线下退款
+}
+
+// 桌子状态
+// 需要支持"|" 运算，每个新增的值都是0x1, 0x10, 0x100的十进制数
+enum ENTableStatusType
+{
+    EN_TABLE_STATUS_TYPE_WAITING        = 1;
+    EN_TABLE_STATUS_TYPE_SIGNING        = 2;
+    EN_TABLE_STATUS_TYPE_GAMING         = 4;
+}
+
+// 请求房间列表房间子类型类型
+// 需要支持"|" 运算，每个新增的值都是0x1, 0x10, 0x100的十进制数
+enum ENTableSubType
+{
+    EN_TABLE_SUB_TYPE_UNKNOWN           = 0; //
+    EN_TABLE_SUB_TYPE_RECOMMEND         = 1; // 推荐比赛
+    EN_TABLE_SUB_TYPE_GOLDEN            = 2; // 自动创建的金币比赛
+    EN_TABLE_SUB_TYPE_FRAGMENT          = 4; // 自动创建的碎片比赛
+    EN_TABLE_SUB_TYPE_SPIN              = 8; // 自动创建的暴击场比赛
+}
+
+enum ENTrainingTableLevel
+{
+    EN_TRAINING_TABLE_LEVEL_JUNIOR           = 0; //
+    EN_TRAINING_TABLE_LEVEL_MIDDLE           = 1; // 
+    EN_TRAINING_TABLE_LEVEL_SENIOR           = 2; // 
+}
+
+enum ENChatType
+{
+    EN_CHAT_TEXT    = 1;
+    EN_CHAT_VOICE   = 2;
+    EN_CHAT_EMOJI   = 3;
+}
+
+// vim:ts=4:sw=4:et:
