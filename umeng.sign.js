@@ -1,4 +1,5 @@
-    //获取友盟 推送签名
+const crypto = require('crypto')
+//获取友盟 推送签名
     getUmengSign({
         method = METHOD,
         url = SEND_NOTICES_API,
