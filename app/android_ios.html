@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>app下载</title>
+    <style>
+        *{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box
+        }
+        body,html{
+            width:100%;
+            height:100%;
+        }
+        body{
+            margin:0;
+            padding: 0;
+            background: url('./android.jpg') no-repeat;
+            background-size:100%;
+            background-color: #1B1B1B;
+            background-attachment: fixed;
+        }
+        a{
+            text-decoration: none; 
+        }
+        a:link,a:active,a:visited{
+            color:#22241F;
+        }
+        .download{
+            width:50%;
+            padding: 10px 20px;
+            text-align: center;
+            background-color: #D8AF6D;
+            color:#22241F;
+            font-size:22px;
+            border-radius: 30px;
+        }
+        @media screen and (max-width:320px) {
+            .download{
+                font-size:20px;
+            }
+        }
+        .download-section{
+            width:100%;
+            position: absolute;
+            bottom:5%;
+            text-align: center;
+        }
+        .placeholder{
+            display: inline-block;
+            width:30px;
+        }
+        @media screen and (max-width:320px) {
+            .placeholder{
+                width:15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="download-section">
+        <a href="http://www.legendpoker.cn/app/legendpoker.apk " class="download" target="_blank">安卓下载</a>
+        <span class="placeholder"></span>        
+        <a href="https://itunes.apple.com/us/app/chuan-qi-pu-ke/id1190038476" target="_blank" class="download">苹果下载</a>
+    </div>
+</body>
+</html>
