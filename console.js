@@ -3,9 +3,9 @@ const util = require('util')
 
 //源码实现
 
-// Console.prototype.log = function(...args){
-//     this._stdout.write(`${util.format.apply(null,args)}`)
-// }
+Console.prototype.log = function(...args){
+    this._stdout.write(`${util.format.apply(null,args)}`)
+}
 
 
 //自己实现
