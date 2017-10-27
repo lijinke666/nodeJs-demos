@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const assert = require("assert")
 
 const f = fs.readFileSync(path.resolve(__dirname,'./pageres.js'))
 console.log(f.toString());
@@ -52,3 +53,13 @@ console.log(path.sep);
 
 //path.relative() 方法返回从 from 到 to 的相对路径（基于当前工作目录）。
 console.log(path.relative('./xml2excel/app.js','./apns.js'));     //  ..\..\apns.js
+
+//path.extname()  解析后缀名  以前都是用正则去匹配
+const testName = "/test.jpg"
+const type = testName.replace(/.*(\..*)$/,'$1')
+console.log(type);    //.jpg
+
+const type2 = path.extname(testName)
+console.log(type2);     //.jpg
+
+assert.equal(type,type2)
