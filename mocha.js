@@ -11,7 +11,7 @@ describe('Array',()=>{
     describe('#sort()',()=>{
         it('需要按重小到大排序',()=>{
             const test = [1,2,3,10]
-            assert(arr.sort() === test)
+            assert(arr.sort((a,b)=>a+b) === test)
         })
     })
 })

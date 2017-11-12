@@ -1,7 +1,8 @@
 {
   "scripts": {
     "images": "rimraf -rf images && node getImage -url ${url}",
-    "test": "mocha --require intelli-espower-loader ./mocha.js"
+    "test": "mocha --require intelli-espower-loader ./mocha.js",
+    "test1": "jest"
   },
   "devDependencies": {
     "body-parser": "^1.15.2",
@@ -9,6 +10,7 @@
     "ejs": "^2.5.5",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
+    "jest": "^21.2.1",
     "memory-cache": "^0.2.0",
     "mocha": "^3.4.2",
     "mysql": "^2.12.0",
