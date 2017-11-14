@@ -1,5 +1,5 @@
 /**
- * nodejs 原声提供的 字符串解码 工具
+ * nodejs 原生提供的 字符串解码 工具
  */
 
 const querystring = require('querystring')
