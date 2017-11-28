@@ -2,7 +2,7 @@ const { getClientIp } = require('../helper/ipHelper')
 const { isIP } = require('validator')
 const { API_AUTH_IP_CONFIG } = require('../config')
 const debug = require('debug')("ipLimit")
-const { HTTP_logger,Error_logger } = require('../../libs/logHelper')
+const { HTTP_logger,Error_logger } = require('./logHelper')
 
 const API_AUTH_IP_CONFIG = {
     "WX":["11.22.33.44"],            //微信

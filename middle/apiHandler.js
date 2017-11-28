@@ -2,7 +2,7 @@
  * 统一处理 response 格式
  * api  使用 res.resRawData = xxx; next()  发送到前端
  */
-const { HTTP_logger } = require('../../libs/logHelper')
+const { HTTP_logger } = require('./logHelper')
 
 module.exports = function (req, res, next) {
     if (!res.resRawData) return next()

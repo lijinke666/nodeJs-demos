@@ -1,4 +1,4 @@
-const { Error_logger } = require('../../libs/logHelper')
+const { Error_logger } = require('./logHelper')
 
 module.exports = function (err, req, res, next) {
     const resultData = {
