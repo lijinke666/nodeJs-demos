@@ -41,5 +41,5 @@ console.log(querystring.stringify(obj))
   */
   const testFormatText = '你好 %s 我是你 %s'
   console.log(format(testFormatText,'李金珂','爹爹'))     //你好 李金珂 我是你 爹爹
-  console.log('尊敬的用户: %s ,你好!,您已欠费 %d','李金珂',100);
+  console.log('尊敬的用户: %s ,你好!,您已欠费 %d','李金珂',100);  //尊敬的用户: 李金珂 ,你好!,您已欠费 100
 
