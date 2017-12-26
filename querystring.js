@@ -26,3 +26,11 @@ const string = querystring.stringify(testObj)
 
 console.log(string);
 //name=1&age=18&sex=%E7%94%B7&sex=%E5%A5%B3
+
+
+//HTTP 如何通过 GET 方法 (URL) 传递 let arr = [1,2,3,4] 给服务器?
+
+const testArr = querystring.stringify({arr:[1,2,3,4]})
+console.log(testArr);   //arr=1&arr=2&arr=3&arr=4
+
+console.log(querystring.parse(testArr));
