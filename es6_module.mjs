@@ -5,6 +5,7 @@
 import fs from "fs"
 import path from "path"
 
-const data = fs.readFileSync(path.resolve("./exec.js")).toString()
-
-console.log(data);
+export default getData = ()=>{
+    const data = fs.readFileSync(path.resolve("./exec.js")).toString()
+    return data
+}
