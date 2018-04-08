@@ -7,7 +7,7 @@
  const fs = require('fs')
  const filePath = path.resolve(__dirname,"./xml2excel")
 
- const deepRead = (dir=__dirname)=>{
+ function deepRead(dir=__dirname){
      if(!fs.existsSync(dir)) throw new Error(`${dir}: 不存在`)
      const _dir = fs.readdirSync(dir)     //当前目录列表
      const filenames = []

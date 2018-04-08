@@ -1,11 +1,11 @@
 const crypto = require('crypto')
 //获取友盟 推送签名
-    getUmengSign({
+const  getUmengSign = ({
         method = METHOD,
         url = SEND_NOTICES_API,
         secret = APP_MASTER_SECRET,
         requestParams = {}
-    }) {
+    }) => {
         const postBody = JSON.stringify(requestParams)
         debug('[Fn => getUmentSign ] postBody => ', postBody)
         const sign = crypto.createHash('md5')
