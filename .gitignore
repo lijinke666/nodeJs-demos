@@ -3,3 +3,4 @@
 .idea
 .vscode
 images/
+*/**/node_modules

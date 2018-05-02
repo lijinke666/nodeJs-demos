@@ -1,0 +1,10 @@
+{
+  "name": "cheerio",
+  "version": "0.0.1",
+  "description": "cheerio",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "images": "rimraf -rf images && node getImage -url ${url}",
+  }
+}

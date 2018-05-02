@@ -4,14 +4,11 @@ const request = require('request')
 const cheerio = require("cheerio")            //服务端的jquery
 
 const targetDir = path.resolve(__dirname,'images')
-let targetUrl = ""
-try{
-   targetUrl = JSON.parse(process.env.npm_config_argv).remain[0]
-}catch(e){
-  targetUrl = "http://www.lijinke.cn";
-}
+const targetUrl =  process.argv[2] || "http://www.lijinke.cn";
 
-fs.mkdirSync(targetDir)
+if(!fs.existsSync(path.resolve(__dirname,"./images"))){
+  fs.mkdirSync(targetDir)
+}
 
 request.get(targetUrl,(err,res,body)=>{
   if(!err && res.statusCode === 200 ){     //请求 目标地址 请求成功
