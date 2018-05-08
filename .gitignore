@@ -4,3 +4,4 @@
 .vscode
 images/
 */**/node_modules
+puppeteer/**/*.png
