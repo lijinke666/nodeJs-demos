@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nodejs原生解析FormData</title>
+</head>
+<body>
+    <h1>一般是通过 multipart 这种库直接解析 formData 流,练习一下用原生看能实现不</h1>
+    <form class="upload-form" encType="multipart/form-data">
+        <input type="file" name="file" value="选择文件" class="file-btn" accept="image/*"/>
+    </form>
+    <button type="button" class="upload-btn">文件上传</button>
+</body>
+<script>
+  const uploadBtn = document.querySelector('.upload-btn')
+  uploadBtn.addEventListener('click',()=>{
+    const formData = new FormData(document.querySelector('form'))
+    fetch('/upload',{
+      method:"POST",
+      body:formData
+    }).then(async (res)=>{
+      const data = await res.json()
+      console.log(data);
+    })
+  })
+</script>

@@ -9,7 +9,7 @@ const {exec,spawn} = require("child_process")
 //nodejs 实现守护进程
 //node test.process.js
 const p = spawn('node',['test.process.js'],{
-    detached:true           //如果true  则调用 setsid 方法    准备将子进程独立于父进程运行
+    detached:true           //如果true  则调用 setsid 方法    准备将子进程独立于父进程运行 (父进程死亡是否允许子进程存活)
 })
 
 console.log(process.pid,p.pid);
