@@ -1,9 +1,11 @@
 const express = require("express");
 const fs = require("fs");
 const app = express();
-const { PassThrough, Writable } = require('stream');
-const {StringDecoder} = require('string_decoder');
-const decoder = new StringDecoder('utf8')
+const { PassThrough, Writable } = require("stream");
+const { StringDecoder } = require("string_decoder");
+const decoder = new StringDecoder("utf8");
+const writable = new Writable();
+const Form = require('./form')
 /**
  * 四种基本的流类型
  * Readable - 可读的流 (例如 fs.createReadStream()).
@@ -22,24 +24,12 @@ app.post("/upload", (req, res, next) => {
     Content-Type: image/jpeg
     ------WebKitFormBoundary9mjuftX1wqDfKEPD--
    */
-  // console.log(req.headers.content-type)    // 找到里面的 content-type 字段 'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryJnAACRgmszphkaXv'
-  const fieldStream = new PassThrough();
-  let value = ""
-  //readable 当有可读流时执行
-  fieldStream.on('readable', ()=> {
-    //读取 拿到 buffer
-    const buffer = fieldStream.read();
-    if (!buffer) return;
-    // 拼接 buffer decoder.write 把buffer 转成字符串
-    value += decoder.write(buffer);
-  });
-  fieldStream.on('end', function() {
-    console.log(fieldStream.name,value)
-  });
-  fieldStream.on('error', function() {
-    console.log('出错了')
-  });
+  // console.log(req.headers['content-type'])    // 找到里面的 content-type 字段 'content-type': 'multipart/form-data; boundary=----WebKitFormBoundaryJnAACRgmszphkaXv'
+
   //TODO: 继续研究
+  const form = new Form()
+  form.parse(req)
+
 });
 
 app.listen(1996, () => console.log("start..."));

@@ -5,7 +5,7 @@
 
  const path = require('path')
  const fs = require('fs')
- const filePath = path.resolve(__dirname,"./xml2excel")
+ const filePath = path.resolve(__dirname,"../xml2excel")
 
  function deepRead(dir=__dirname){
      if(!fs.existsSync(dir)) throw new Error(`${dir}: 不存在`)

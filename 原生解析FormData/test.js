@@ -40,8 +40,11 @@ var COLON = 58;
 var A = 97;
 var Z = 122;
 
+// header 里面的 contentType 长这样 : contentType: multipart/form-data; boundary=----WebKitFormBoundary60d84WdI9j6Avg4c
+// 检查是否是 formData 格式 
 var CONTENT_TYPE_RE = /^multipart\/(?:form-data|related)(?:;|$)/i;
-var CONTENT_TYPE_PARAM_RE = /;\s*([^=]+)=(?:"([^"]+)"|([^;]+))/gi;
+// 捕获 form-data 参数
+var CONTENT_TYPE_PARAM_RE = /;\s*([^=]+)=(?:"([^"]+)"|([^;]+))/gi;      //第一个匹配组 (boundary) 第二个匹配组(WebKitFormBoundary60d84WdI9j6Avg4c)
 var FILE_EXT_RE = /(\.[_\-a-zA-Z0-9]{0,16}).*/;
 var LAST_BOUNDARY_SUFFIX_LEN = 4; // --\r\n
 
@@ -53,6 +56,7 @@ exports.Form = Form;
 util.inherits(Form, stream.Writable);
 function Form(options) {
   var self = this;
+  //继承可写流  提供一个 _write() 方法 将数据发送到底层资源
   stream.Writable.call(self);
 
   options = options || {};
@@ -160,6 +164,7 @@ Form.prototype.parse = function(req, cb) {
   if (req._decoder || (state && (state.encoding || state.decoder))) {
     // this is a binary protocol
     // if an encoding is set, input is likely corrupted
+    //二进制流 如果设置了编码 数据可能损坏
     validationError(new Error('request encoding must not be set'));
     return;
   }
@@ -170,6 +175,7 @@ Form.prototype.parse = function(req, cb) {
     return;
   }
 
+  //检查 header 的 content-type 是否是 formData 格式
   var m = CONTENT_TYPE_RE.exec(contentType);
   if (!m) {
     validationError(createError(415, 'unsupported content-type'));
@@ -177,6 +183,7 @@ Form.prototype.parse = function(req, cb) {
   }
 
   var boundary;
+  //设置正则表达式开始下一次查找的索引位置
   CONTENT_TYPE_PARAM_RE.lastIndex = m.index + m[0].length - 1;
   while ((m = CONTENT_TYPE_PARAM_RE.exec(contentType))) {
     if (m[1].toLowerCase() !== 'boundary') continue;
