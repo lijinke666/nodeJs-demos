@@ -2,7 +2,7 @@
  * @Author: Jinke.Li 
  * @Date: 2018-05-09 13:30:15 
  * @Last Modified by: Jinke.Li
- * @Last Modified time: 2018-05-09 15:28:40
+ * @Last Modified time: 2018-05-21 18:16:58
  */
 const { PassThrough, Writable } = require("stream");
 const { StringDecoder } = require("string_decoder");
@@ -21,15 +21,43 @@ class Form extends Writable {
     // header 里面的 contentType 长这样 : contentType: multipart/form-data; boundary=----WebKitFormBoundary60d84WdI9j6Avg4c
     // 检查是否是 formData 格式
     this.formDataReq = /^multipart\/(?:form-data|related)(?:;|$)/i;
-    this.START = 0
+    this.START = 0;
+
+    this.fields = {} //字段
+    this.files = {}  //文件
   }
-  parse(req) {
+  parse(req,cb) {
+    this.on('error',(err)=>{
+      console.log('parse error:\n',err);
+      cb(err)
+    })
+    //流 结束之后 emit 一个 filed 事件  这里订阅这个事件
+    this.on('field',(name,value)=>{
+      console.log('parse field:\n');
+      const fieldsArray = this.fields[name] || (this.fields[name] = []);
+      fieldsArray.push(value);
+      process.nextTick(()=>{
+        if(req.readable){
+          req.resume()
+          req.once('end',()=>{
+            cb(null,this.fields)
+          })
+        }
+        cb(null,this.fields)
+      })
+    })
+
+    this.on('close',()=>{
+      console.log('parse close:');
+      cb(undefined,this.fields)
+    })
+
+
     const fieldStream = new PassThrough();
     const contentType = req.headers["content-type"];
     console.log("contentType:", contentType);
-
-    const chunk = [];
-    let bufferSize = 0;
+  
+    let value = "";
     //readable 当有可读流时执行
     fieldStream.on("readable", () => {
       console.log("fieldStream readable start...\n");
@@ -38,12 +66,14 @@ class Form extends Writable {
       const buffer = fieldStream.read();
       if (!buffer) return;
       // 拼接 buffer decoder.write 把buffer 转成字符串
-      chunk.push(buffer);
-      bufferSize += buffer.length;
+      value += this.decoder.write(buffer);
     });
     fieldStream.on("end", () => {
       console.log("fieldStream end:\n");
-      const field = Buffer.concat(chunk, bufferSize).toString();
+      // console.log(fieldStream.name); //当前的这个流的名字 ------WebKitFormBoundary9p19uUXH92TOp4wf--
+
+      //接受完成之后 发布 field 自定义事件
+      this.emit("field", fieldStream.name, value);
     });
     fieldStream.on("error", err => {
       console.log("fieldStream error:\n", err);
@@ -76,7 +106,7 @@ class Form extends Writable {
       throw new Error("没找到 formData 的边界");
     }
 
-    this.setUpParser(boundary)
+    this.setUpParser(boundary);
     //把当前request所有的数据 都 给当前的可读流 也就是加入管道, 如果不写这句  上面的事件无法触发
     req.pipe(fieldStream);
   }
@@ -112,16 +142,16 @@ class Form extends Writable {
     return boundary;
   }
   setUpParser(boundary) {
-    this.boundary = Buffer.alloc(boundary.length + 4)
-    this.boundary.write('\r\n--', 0, boundary.length + 4, 'ascii');
-    this.boundary.write(boundary, 4, boundary.length, 'ascii');
-    this.lookbehind = Buffer.alloc(this.boundary.length + 8)
+    this.boundary = Buffer.alloc(boundary.length + 4);
+    this.boundary.write("\r\n--", 0, boundary.length + 4, "ascii");
+    this.boundary.write(boundary, 4, boundary.length, "ascii");
+    this.lookbehind = Buffer.alloc(this.boundary.length + 8);
     this.state = this.START;
     this.boundaryChars = {};
     for (var i = 0; i < this.boundary.length; i++) {
       this.boundaryChars[this.boundary[i]] = true;
     }
-  
+
     this.index = null;
     this.partBoundaryFlag = false;
   }
@@ -136,7 +166,7 @@ class Form extends Writable {
   _write(chunk, encoding, callback) {
     console.log("_write......");
     console.log(chunk);
-    callback()
+    callback();
   }
 }
 

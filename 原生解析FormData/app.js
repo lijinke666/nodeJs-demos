@@ -28,7 +28,9 @@ app.post("/upload", (req, res, next) => {
 
   //TODO: 继续研究
   const form = new Form()
-  form.parse(req)
+  form.parse(req,(err,fields)=>{
+    console.log('app.js:',fields);
+  })
 
 });
 
