@@ -31,11 +31,14 @@ const options = {
 
 const pool = genericPool.createPool(factory, options);
 
-pool
-  .acquire()
+pool  
+  .acquire()               //取得池中连接,拿到句柄
   .then(client => {
     success("poop acquire success");
+    //像游戏端发送数据
     client.write('test123')
+
+    //接收游戏端发来的数据
     client.on("data", data => {
       debug("接收游戏服务器数据:", data);
     });
