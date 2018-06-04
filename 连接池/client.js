@@ -1,9 +1,10 @@
+//tcp 客户端
 const genericPool = require("generic-pool");
-const {success,debug,fatal} = require("signale");
+const { success, debug, fatal } = require("signale");
 const { Socket } = require("net");
 
-const HOST = "192.168.2.154";
-const PORT = 9002;
+const HOST = "localhost";
+const PORT = 8081;
 
 /**
  * Step 1 - 创建连接池
@@ -18,7 +19,8 @@ const factory = {
     return client;
   },
   destroy(client) {
-    client.disconnect();
+    debug('destroy')
+    client.destroy();
   }
 };
 
@@ -29,23 +31,24 @@ const options = {
 
 const pool = genericPool.createPool(factory, options);
 
-pool.acquire()
+pool
+  .acquire()
   .then(client => {
     success("poop acquire success");
+    client.write('test123')
     client.on("data", data => {
-      debug("接收游戏服务器数据:",data);
+      debug("接收游戏服务器数据:", data);
     });
     client.on("error", err => {
       fatal("socket连接失败", err);
     });
     client.on("close", () => {
       debug("连接关闭");
-      client.destroy();
-      pool.release(client)
+      pool.release(client);
     });
-    client.on("timeout",()=>{
+    client.on("timeout", () => {
       debug("连接超时");
-    })
+    });
   })
   .catch(err => {
     //超时或者 超过最大等待连接数
