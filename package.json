@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "cheerio": "^0.22.0",
+    "generic-pool": "^3.4.2",
     "koa": "^2.4.1",
     "koa-response-time": "^2.0.0",
     "mongodb": "^2.2.24",
@@ -35,6 +36,7 @@
     "pageres-cli": "^4.0.0",
     "request": "^2.79.0",
     "rimraf": "^2.6.1",
+    "signale": "^1.1.0",
     "validator": "^9.1.2"
   }
 }
