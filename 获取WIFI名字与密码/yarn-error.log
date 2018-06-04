@@ -1,0 +1,29 @@
+Arguments: 
+  D:\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add wifi-password
+
+PATH: 
+  D:\cmder\bin;D:\cmder\vendor\conemu-maximus5\ConEmu\Scripts;D:\cmder\vendor\conemu-maximus5;D:\cmder\vendor\conemu-maximus5\ConEmu;C:\ProgramData\Oracle\Java\javapath;C:\Python27\;C:\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x64;C:\Program Files\Git\cmd;C:\Users\Administrator\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Java\jdk1.8.0_151\bin;;Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Users\Administrator\AppData\Roaming\nvm;C:\Program Files\nodejs;D:\;D:\cmder\Cmder.exe;C:\Program Files\TortoiseSVN\bin;D:\BaiduNetdiskDownload\mongodb\bin;D:\redis_win\redisbin_x64;C:\Python27;C:\Python27\Scripts;;D:\Microsoft VS Code\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Android\Sdk\tools;C:\Users\Administrator\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\Java\jdk1.8.0_151\bin;D:\nodejs\;;Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Users\Administrator\AppData\Roaming\nvm;C:\Program Files\nodejs;D:\;D:\cmder\Cmder.exe;C:\Program Files\TortoiseSVN\bin;D:\BaiduNetdiskDownload\mongodb\bin;D:\redis_win\redisbin_x64;C:\Python27;C:\Python27\Scripts;;D:\Microsoft VS Code\bin;C:\Users\Administrator\AppData\Local\Android\Sdk\tools;C:\Users\Administrator\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\Java\jdk1.8.0_151\bin;C:\Users\Administrator\AppData\Roaming\npm;D:\Egret Wing 3\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\share\vim\vim74;D:\cmder\
+
+Yarn version: 
+  0.24.5
+
+Node version: 
+  8.9.0
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: connect ETIMEDOUT 101.206.162.244:443
+      at Object._errnoException (util.js:1024:11)
+      at _exceptionWithHostPort (util.js:1046:20)
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1182:14)
