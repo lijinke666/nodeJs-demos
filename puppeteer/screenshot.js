@@ -3,7 +3,7 @@
  */
 const puppeteer = require("puppeteer");
 const path = require("path");
-const URL = "http://www.lijinke.cn";
+const URL = "http://www.baidu.com";
 
 (async () => {
   try {
@@ -15,8 +15,8 @@ const URL = "http://www.lijinke.cn";
     //新建一个窗口
     const page = await browser.newPage();
     page.setViewport({
-      width: 600,
-      height: 200
+      width: 1440,
+      height: 600
     });
     await page.goto(URL, { waitUntil: "networkidle2" }); // 等待网络状态为空闲的时候才继续执行
 
