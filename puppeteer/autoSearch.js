@@ -19,11 +19,11 @@ const URL = "http://www.baidu.com";
       //获取焦点
       await page.focus("#kw");         //#kw 百度input 输入框的ID
       //输入关键字
-      await page.type("李金珂的小屋", {
-        delay: 1000 // 控制 keypress 也就是每个字母输入的间隔
+      await page.type("#kw",'照片', {
+        delay: 500 // 控制 keypress 也就是每个字母输入的间隔
       });
       //触发回车
-      await page.press("Enter");
+      await page.tap("#su");
       await browser.close();
     } catch (error) {
       console.log("error\n", error);
