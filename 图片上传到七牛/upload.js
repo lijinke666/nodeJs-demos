@@ -21,6 +21,8 @@ const { httpLogger, errorLogger } = require('../common/helper/logHelper')
 
 const TOKEN = qiniuToken(AccessKey,SecretKey,bucketName)
 
+const uploadUri = "https://up-z2.qiniup.com"
+
 /**
  * 头像上传
  * @param {String} avatar 头像 [base64]
