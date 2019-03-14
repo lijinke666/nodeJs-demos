@@ -876,6 +876,11 @@ commander@2.9.0, commander@^2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
+commander@^2.11.0:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
+  integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
+
 compare-versions@^3.1.0:
   version "3.2.1"
   resolved "http://registry.npm.taobao.org/compare-versions/download/compare-versions-3.2.1.tgz#a49eb7689d4caaf0b6db5220173fd279614000f7"
@@ -3623,6 +3628,14 @@ only@0.0.2:
   version "0.0.2"
   resolved "http://registry.npm.taobao.org/only/download/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
 
+opentype.js@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/opentype.js/-/opentype.js-0.11.0.tgz#310f3fb85f09ca6cf22ac8cf540df67b418c3351"
+  integrity sha512-Z9NkAyQi/iEKQYzCSa7/VJSqVIs33wknw8Z8po+DzuRUAqivJ+hJZ94mveg3xIeKwLreJdWTMyEO7x1K13l41Q==
+  dependencies:
+    string.prototype.codepointat "^0.2.1"
+    tiny-inflate "^1.0.2"
+
 optimist@^0.6.1:
   version "0.6.1"
   resolved "http://registry.npm.taobao.org/optimist/download/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
@@ -4715,6 +4728,11 @@ string-width@^1.0.1:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
 
+string.prototype.codepointat@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/string.prototype.codepointat/-/string.prototype.codepointat-0.2.1.tgz#004ad44c8afc727527b108cd462b4d971cd469bc"
+  integrity sha512-2cBVCj6I4IOvEnjgO/hWqXjqBGsY+zwPmHl12Srk9IXSZ56Jwwmy+66XO5Iut/oQVR7t5ihYdLB0GMa4alEUcg==
+
 string_decoder@~0.10.x:
   version "0.10.31"
   resolved "http://registry.npm.taobao.org/string_decoder/download/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
@@ -4833,6 +4851,14 @@ test-exclude@^4.2.1:
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
 
+text-to-svg@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/text-to-svg/-/text-to-svg-3.1.5.tgz#493913d70eae1b12240b309547d64d787ec11e57"
+  integrity sha512-mbeGhMz9MAFaGaZGE8n4Mh/iQV/UkVnYJXhXFrv0eWkcNTgflhpHR2a8nr2ci3NU4FekIHJYKh0N0qdc6yUpfA==
+  dependencies:
+    commander "^2.11.0"
+    opentype.js "0.11.0"
+
 thenify-all@^1.0.0:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/thenify-all/download/thenify-all-1.6.0.tgz#1a1918d402d8fc3f98fbf234db0bcc8cc10e9726"
@@ -4860,6 +4886,11 @@ timed-out@^3.0.0:
 timed-out@^4.0.0:
   version "4.0.1"
   resolved "http://registry.npm.taobao.org/timed-out/download/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
+
+tiny-inflate@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/tiny-inflate/-/tiny-inflate-1.0.2.tgz#93d9decffc8805bd57eae4310f0b745e9b6fb3a7"
+  integrity sha1-k9nez/yIBb1X6uQxDwt0Xptvs6c=
 
 tmpl@1.0.x:
   version "1.0.4"
