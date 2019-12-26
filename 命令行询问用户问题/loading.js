@@ -1,6 +1,6 @@
 const readline = require('readline')
 
-const limit = 10   //模拟提取时长
+const limit = 20   //模拟提取时长
 
 const rl = readline.createInterface({
   input: process.stdin,       //标准输入流
@@ -9,9 +9,7 @@ const rl = readline.createInterface({
 
 rl.prompt()
 
-rl.question('[成都银行] 你要提取多少钱 :', (answer) => {
-  getMoney(answer)
-})
+rl.question('[成都银行] 你要提取多少钱 : \r', getMoney)
 
 
 const getMoney = (answer) => {
