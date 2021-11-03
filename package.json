@@ -39,6 +39,6 @@
     "signale": "^1.1.0",
     "svg2png": "^4.1.1",
     "text-to-svg": "^3.1.5",
-    "validator": "^9.1.2"
+    "validator": "^13.7.0"
   }
 }
