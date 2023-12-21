@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventSource & Server-Sent Events Demo</title>
+  </head>
+  <body>
+    <input type="text" />
+    <button id="submit">提问</button>
+    <button id="quit">退出</button>
+    <div class="container"></div>
+  </body>
+  <script type="module">
+    const sse = new EventSource('/sse-stream');
+    const submit = document.querySelector('#submit');
+    const quit = document.querySelector('#quit');
+    const container = document.querySelector('.container');
+
+    submit.addEventListener('click', () => {
+      sse.onopen = () => {
+        console.log('开启');
+      };
+
+      sse.onmessage = (e) => {
+        console.log(
+          '🚀 ~ file: index.html:26 ~ submit.addEventListener ~ e:',
+          e,
+        );
+        const msg = document.createElement('p');
+        msg.innerHTML = e.data;
+        container.appendChild(msg);
+      };
+
+      sse.onerror = (error) => {
+        console.log(
+          '🚀 ~ file: index.html:26 ~ btn.addEventListener ~ error:',
+          error,
+        );
+      };
+    });
+
+    quit.addEventListener('click', () => {
+      sse.close();
+    });
+  </script>
+</html>
